@@ -1,0 +1,112 @@
+﻿@model IEnumerable<u19292148_Homework5.Models.Student>
+
+
+@{
+    ViewBag.Title = "Students";
+}
+<h2>Students</h2>
+
+
+@*<script>
+    function toggleButtonReturn() {
+        
+        document.getElementById("borrowBook").remove("hiddenBorrow");
+        document.getElementById("borrowBook").style.display = "none";
+        document.getElementById("returnBook").add("hiddenReturn");
+        document.getElementById("returnBook").style.display = "block";
+    }
+
+    function toggleButtonBorrow() {
+
+        document.getElementById("returnBook").remove("hiddenReturn");
+        document.getElementById("returnBook").style.display = "none";
+        document.getElementById("borrowBook").add("hiddenBorrow");
+        document.getElementById("borrowBook").style.display = "block";
+    }
+    
+
+</script>*@
+
+
+
+<div class="row">
+
+    @using (Html.BeginForm("ViewStudents", "Home", FormMethod.Post))
+    {
+        <table class="table">
+            <tr>
+                <td>
+                    <input type="text" display:inline" name="searchText" class="form-control" placeholder="Search Student Name" />
+                </td>
+                <td>
+                    @Html.DropDownList("selectClass", new SelectList(u19292148_Homework5.Models.DataService.details, "Value", "List"), "Select a class", new { @class = "form-control" })
+                </td>
+                <td>
+                    <button type="submit" class="btn btn-success">Search</button>
+                </td>
+                <td>                
+                    @Html.ActionLink("Clear", "ViewStudents", "Home", new { bookID = ViewBag.Text }, new { @class = "btn btn-danger" })
+                </td>
+            </tr>
+
+        </table>
+
+    }
+
+
+
+</div>
+
+<table class="table" id="table">
+    <tr>
+        <th>
+            #
+        </th>
+        <th>
+            Name
+        </th>
+        <th>
+            Surname
+        </th>
+        <th>
+            Class
+        </th>
+        <th>
+            Points
+        </th>
+        <th>
+            Borrow Book
+        </th>
+
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.StudentID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StudentName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StudentSurname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StudentClass)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StudentPoint)
+            </td>
+            <td id="borrowBook" class="hiddenBorrow" style="display:block;">
+                @Html.ActionLink("Borrow Book", "BorrowBook", "Home", new { studentID = item.StudentID, bookID = Convert.ToInt32(@ViewBag.Text) }, new { @class = "btn btn-primary borrow"})
+
+            </td>
+            <td id="returnBook" class="hiddenReturn" style="display:block">
+                @Html.ActionLink("Return Book", "ReturnBook", "Home", new { borrowID = Convert.ToInt32(@ViewBag.borrow), IDbook = Convert.ToInt32(@ViewBag.Text) }, new { @class = "btn btn-primary return"})
+            </td>
+
+        </tr>
+    }
+
+</table>

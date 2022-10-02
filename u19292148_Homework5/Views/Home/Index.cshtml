@@ -1,0 +1,103 @@
+﻿@model IEnumerable<u19292148_Homework5.Models.Book>
+@{
+    ViewBag.Title = "Books";
+}
+
+<h3>Books</h3>
+
+<div class="row">
+
+    @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+    {
+        <table class="table">
+            <tr>
+                <td>
+                    <input type="text"  display:inline" name="searchText" class="form-control" placeholder="Search Book Name" />
+                </td>
+                <td>
+                    @Html.DropDownList("authorText", new SelectList(u19292148_Homework5.Models.DataService.authorLists, "Value", "List"), "Select a Author", new { @class = "form-control"})
+                </td>
+                <td>
+                    @Html.DropDownList("typeText", new SelectList(u19292148_Homework5.Models.DataService.typeLists, "Value", "List"), "Select a Type", new { @class = "form-control" })
+                </td>
+                <td>
+                    <button type="submit" class="btn btn-success">Search</button>
+                </td>
+                <td>
+                    @Html.ActionLink("Clear", "Index", "Home", new { @class = "btn btn-danger" })
+                </td>
+            </tr>
+        </table>
+       
+       
+        
+        
+        
+    }
+</div>
+
+<table class="table">
+    <tr>
+        <th>
+            #
+        </th>
+        <th>
+            Name
+        </th>
+        <th>
+            Author
+        </th>
+        <th>
+            Type
+        </th>
+        <th>
+            Page Count
+        </th>
+        <th>
+            Points
+        </th>
+        <th>
+            Status
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BookID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BookName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Author.AuthorSurname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Type.TypeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PageCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Point)
+            </td>
+            <td>
+                @if (ViewBag.check == "Available")
+                {
+                    <span style="color:green">@ViewBag.check</span>
+                }
+                else
+                {
+                    <span style="color:red">@ViewBag.check</span>
+                }
+            </td>
+            <td>
+                @Html.ActionLink("View", "ViewBook", "Home", new { bookID = item.BookID, bookName = item.BookName}, new { @class = "btn btn-primary" })
+            </td>
+
+        </tr>
+    }
+
+</table>

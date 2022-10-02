@@ -1,0 +1,81 @@
+﻿@model IEnumerable<u19292148_Homework5.Models.Borrow>
+@{
+    ViewBag.Title = "ViewBook";
+
+}
+
+
+<h3>
+    @ViewBag.BookName
+@if (ViewBag.check == "- Book Available")
+{
+    <span style="color:green">@ViewBag.check</span>
+}
+else
+{
+    <span style="color:red">@ViewBag.check</span>
+}
+</h3>
+
+
+<h3>@ViewBag.Result</h3>
+
+<div class="row">
+
+    @using (Html.BeginForm("ViewBook", "Home", FormMethod.Post))
+    {
+        <table class="table">
+            <tr>
+                <td>
+                    <h3># Borrows - @Model.Count()</h3>
+                </td>
+                <td>
+                    @Html.ActionLink("View Students", "ViewStudents", "Home",new { bookID = ViewBag.Text, IDBorrow = ViewBag.Temp }, new { @class = "btn btn-primary pull-right" })
+                </td>
+            </tr>
+        </table>
+
+    }
+
+</div>
+
+
+
+<table class="table">
+    <tr>
+        <th>
+            #
+        </th>
+        <th>
+            Taken Date
+        </th>
+        <th>
+            Brought Date
+        </th>
+        <th>
+            Borrowed By
+        </th>
+
+    </tr>
+   
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BorrowID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TakenDate)
+            </td>
+            <td id="backDate">
+                @Html.DisplayFor(modelItem => item.BroughtDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Student.StudentName) @Html.DisplayFor(modelItem => item.Student.StudentSurname)
+            </td>
+
+        </tr>
+    }
+
+</table>
+
